@@ -1,0 +1,54 @@
+general:
+  seed: 1
+  device: 0
+
+data:
+  name: zinc12k 
+  bs: 128 
+  num_workers: 4
+
+  preprocess:
+    max_dis: 5 # Max clamp value for SPD distance
+    inf_value: 1001 # Warning: Assumes the value of INF_VALUE (1001) accounts for 2 nodes which are unreachable from each other
+    max_spd_elements: 10  # Nodes are pairs (S, v), where S is a set. For SPD feature calculation, max_spd_elements restricts S to its first max_spd_elements elements when sorted by SPD distance. Must be less than 100.
+    pad_value: 1002 # pad value for sets S with less than max_spd_elements elements
+    global_attr_max_val: 10 # Equivariant layers are encoded as edge features (different integers correpond to different parameters). Max clamp value for edge features
+    n_cluster: 5
+    dim_laplacian: 2 # number of columns to use for spectral clustering
+
+model:
+  num_layer: 6 
+  dim_embed: 96 
+  final_dim: 1
+  dropout: 0.0
+  base_mpnn: Gin # Supports [GatV2, Transformer_conv, Gat, Gin]
+  H: 4 # Warning: H represents the number of heads for GAT, GatV2, and Transformer_conv. It is ignored for other architectures.
+  residual: False
+  aggs: ["uL", "vL", "point"] # To exclude a specific aggregation during training (e.g., "point"), simply pass ["uL", "vL"] instead.
+  sum_pooling: False # False stands for mean pooling
+  point_encoder: MLP # Encoder for the "point" aggregation. Supported options: "RELU", "MLP", "NONE".
+
+  
+  atom_encoder:
+    linear: False  # If False, a lookup table is used; if True, a linear transformation is applied.
+    in_dim: 6  # Used only if 'linear' is True; otherwise, a lookup table is used.
+
+  edge_encoder:
+    linear: False # If False, a lookup table is used; if True, a linear transformation is applied.
+    in_dim: 4 # Only used when 'linear' is True; ignored when using a lookup table.
+    use_edge_attr_vL: True
+    use_edge_attr_uL: True
+  
+  layer_encoder:
+    linear: False # if linear is false then uses an mlp
+    
+    
+training:
+  lr: 0.01 
+  wd: 0 
+  epochs: 100
+  patience: 30
+  warmup: 10
+
+wandb:
+  project_name: TEST

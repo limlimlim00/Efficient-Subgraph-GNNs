@@ -1,0 +1,72 @@
+
+# wandb sweep -p Sweep_test_zinc ./yamls/Sweep_zinc12k_n_5.yaml 
+
+
+program: main.py
+method: grid
+parameters:
+  general__seed:
+    values: [0, 1, 2]
+  general__device:
+    value: 0
+
+# Data
+  data__name:
+    value: "zinc12k"
+  data__bs:
+    value: 128
+  data__num_workers:
+    value: 4
+  data__preprocess__max_spd_elements:
+    value: 10
+  data__preprocess__n_cluster:
+    value: 5
+  data__preprocess__dim_laplacian:
+    value: 2
+
+# Model
+  model__num_layer:
+    values: [6]
+  model__dim_embed:
+    values: [96]
+  model__final_dim:
+    value: 1
+  model__dropout:
+    value: 0.0
+  model__base_mpnn:
+    values: ["Gin"]
+  model__residual:
+    value: False
+  model__sum_pooling:
+    value: True # False uses mean pooling
+  model__layer_encoder__linear:
+    value: False 
+
+
+# Atom encoder
+  model__atom_encoder__linear:
+    value: False
+
+# Edge encoder
+  model__edge_encoder__use_edge_attr_uL:
+    value: True
+  model__edge_encoder__use_edge_attr_vL:
+    value: True
+  model__edge_encoder__linear:
+    value: False
+
+# learning
+  training__lr:
+    values: [0.001]
+  training__wd:
+    values: [0, 0.0003]
+  training__epochs:
+    values: [400]
+  training__patience:
+    values: [40]
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args}
