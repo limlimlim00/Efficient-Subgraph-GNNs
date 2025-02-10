@@ -11,7 +11,7 @@ This repository contains the official code of the paper
 
 - [Installation](#installation)
 - [Configuration Guide](#configuration-file-guide)
-- [Repreducability](#repreducability)
+- [Reproducibility](#reproducibility)
 - [Credits](#credits)
 
 ## Installation
