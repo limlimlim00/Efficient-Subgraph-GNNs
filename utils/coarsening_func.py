@@ -81,7 +81,7 @@ def spectral_clustering(adjacency_matrix, n_clusters=2, dim_laplacian=2):
             laplacian_matrix)
         X = eigenvectors
         
-    kmeans = KMeans(n_clusters=n_clusters, n_init="auto")
+    kmeans = KMeans(n_clusters=n_clusters, n_init=1)  # "auto" 지원 X
     kmeans.fit(X)
     labels = kmeans.labels_
     return labels
