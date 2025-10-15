@@ -151,8 +151,9 @@ def get_sched_func(cfg, optim, warmup_epochs=10):
                                                                factor=0.5,
                                                                patience=cfg.training.patience,
                                                                verbose=True),
-        'ogbg-molesol': torch.optim.lr_scheduler.ConstantLR(optim, total_iters=0, factor=1),
-        'ogbg-molbace': torch.optim.lr_scheduler.ConstantLR(optim, total_iters=0, factor=1),
+        
+        'ogbg-molesol': torch.optim.lr_scheduler.LambdaLR(optim, lr_lambda=lambda epoch: 1.0),  # pytorch 1.7.1
+        'ogbg-molbace': torch.optim.lr_scheduler.LambdaLR(optim, lr_lambda=lambda epoch: 1.0),  # pytorch 1.7.1
 
         'Peptides-func': scheduler_peptides,
         'Peptides-struc': scheduler_peptides,
