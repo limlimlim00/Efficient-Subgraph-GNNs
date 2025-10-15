@@ -157,7 +157,7 @@ class Coarsen_based_model(nn.Module):
         edge_attr = batch.get(f"attr_{agg}", None)
         if edge_attr != None:
             if ("point" in agg):  # global
-                edge_attr = edge_encoder(edge_attr.to(torch.int))
+                edge_attr = edge_encoder(edge_attr.to(torch.long))
             else: # uL/vL
                 edge_attr = edge_encoder(
                     message=-1, attrs=edge_attr, dont_use_message=True)
