@@ -2,6 +2,13 @@ import yaml
 from easydict import EasyDict as edict
 import argparse
 
+# load config path
+_config_parser = argparse.ArgumentParser(add_help=False)
+_config_parser.add_argument("--config", type=str, default="./config/config.yaml",
+                            help="Path to YAML config file")
+_CONFIG_ARGS, _ = _config_parser.parse_known_args()
+CONFIG_PATH = _CONFIG_ARGS.config
+
 # --------------------------------------------------------------------------------- #
 #                               Main functions                                      #
 # --------------------------------------------------------------------------------- #
@@ -113,7 +120,7 @@ def override_config_with_args(cfg, return_nested=True):
     # ================================================================================================ #
     # ================================================================================================ #
     # ================================================================================================ #
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     # general
     if args.general__seed != cfg.general.seed:
