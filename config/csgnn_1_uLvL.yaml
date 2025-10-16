@@ -51,4 +51,4 @@ training:
   warmup: 10
 
 wandb:
-  project_name: csgnn_1_uLvL
+  project_name: csgnn_1_uLvLpoint
