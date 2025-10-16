@@ -154,11 +154,11 @@ class MPNN_block(torch.nn.Module):
         elif self.type == 'Gin':
             self.eps = nn.Parameter(torch.zeros(1))
             if use_linear:
-                if self.agg == "point":
+                if self.agg in ("point", "loint", "global"):
                     self.coupling_layer = LINEAR(self.d, self.d_output)
                 self.layer = LINEAR(self.d, self.d_output)
             else:
-                if self.agg == "point":
+                if self.agg in ("point", "loint", "global"):
                     self.coupling_layer = MLP(idim=self.d, odim=self.d_output, hdim=48)
                 self.layer = MLP(self.d, self.d_output)
         elif self.type == "Gcn":
@@ -181,7 +181,7 @@ class MPNN_block(torch.nn.Module):
             if edge_attr is not None:
                 g_message = edge_attr # g(src)
                 message = x_message + g_message  # x(src) + g(src)
-                if self.agg == "point":
+                if self.agg in ("point", "loint", "global"):
                     if self.point_encoder == "RELU":
                         message = F.relu(message)
                     elif self.point_encoder == "MLP":

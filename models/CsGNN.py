@@ -158,7 +158,7 @@ class Coarsen_based_model(nn.Module):
             return edge_attr
         edge_attr = batch.get(f"attr_{agg}", None)
         if edge_attr != None:
-            if ("point" in agg):  # global
+            if ("point" in agg or "loint" in agg or "global" in agg):  # global
                 edge_attr = edge_encoder(edge_attr.to(torch.long))
             else: # uL/vL
                 edge_attr = edge_encoder(
@@ -180,7 +180,7 @@ class Coarsen_based_model(nn.Module):
     
     # ============================= init - helpers ============================= #
     def is_point_agg(self, agg):
-        return ("point" in agg)
+        return ("point" in agg or "loint" in agg or "global" in agg)
     
     def use_edge_encoder(self, agg):
         if ("uL" in agg):
@@ -193,7 +193,7 @@ class Coarsen_based_model(nn.Module):
                 return True
             else:
                 return False
-        elif ("point" in agg):
+        elif ("point" in agg or "loint" in agg or "global" in agg):
             return True
         else:
             return False
