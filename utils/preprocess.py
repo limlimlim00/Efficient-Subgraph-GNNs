@@ -31,6 +31,12 @@ def product_graph_construction(cfg):
             graph=graph, coarsened_graph=coarsened_graph, n_clusters=n_clusters, INF_VALUE=cfg.data.preprocess.inf_value, pad_value=cfg.data.preprocess.pad_value, MAX_SPD_DIM=MAX_SPD_DIM)  # Nodes x d
         
         # ======================== edges ======================== #
+        uL_edge_index = uL_edge_attr = None
+        vL_edge_index = vL_edge_attr = None
+        global_edge_index = global_edge_attr = None
+        point_edge_index = point_edge_attr = None
+        loint_edge_index = loint_edge_attr = None
+        
         if uL:  # internal
             uL_edge_index, uL_edge_attr = get_uL_edge_index_and_attr(
                 edge_index_original_graph=graph.edge_index,
