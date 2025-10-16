@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import torch_geometric as pyg
 import torch_geometric.data as data
-from utils.coarsening_func import get_coarsened_graph
+from utils.coarsening_func import get_coarsened_graph, identity_coarsen
 from torch_geometric.utils import to_dense_adj, dense_to_sparse
 import math
 import logging
@@ -20,8 +20,13 @@ def product_graph_construction(cfg):
         n_clusters = cfg.data.preprocess.n_cluster
         if n_clusters >= graph.num_nodes:
             n_clusters = graph.num_nodes
-        coarsened_graph = get_coarsened_graph(
-            graph=graph, n_clusters=n_clusters, dim_laplacian=cfg.data.preprocess.dim_laplacian)
+        # 원본 graph 가능
+        if cfg.data.force_identity:
+            coarsened_graph = identity_coarsen(graph)
+        else:
+            coarsened_graph = get_coarsened_graph(
+                graph=graph, n_clusters=n_clusters, dim_laplacian=cfg.data.preprocess.dim_laplacian)
+            
         graph_product_node_indices = torch.arange(
             n_clusters*graph.num_nodes).view((n_clusters, graph.num_nodes))
         product_graph_features = torch.cat([graph.x] * n_clusters, dim=0)

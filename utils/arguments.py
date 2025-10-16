@@ -36,6 +36,10 @@ def override_config_with_args(cfg, return_nested=True):
     parser.add_argument("--data__num_workers", type=int,
                         default=cfg.data.num_workers, help="num_workers")
     
+    # force_identity
+    parser.add_argument("--data__force_identity", type=str2bool,
+                        default=cfg.data.force_identity, help="Always use identity coarsen (exact GxG)")    
+    
     # data -> preprocess
     parser.add_argument("--data__preprocess__max_dis", type=int,
                     default=cfg.data.preprocess.max_dis, help="max_dis")
@@ -135,6 +139,10 @@ def override_config_with_args(cfg, return_nested=True):
         cfg.data.bs = args.data__bs
     if args.data__num_workers != cfg.data.num_workers:
         cfg.data.num_workers = args.data__num_workers
+    
+    if args.data__force_identity != cfg.data.force_identity:
+        cfg.data.force_identity = args.data__force_identity
+    
     #       data -> preprocess
     if args.data__preprocess__max_dis != cfg.data.preprocess.max_dis:
         cfg.data.preprocess.max_dis = args.data__preprocess__max_dis

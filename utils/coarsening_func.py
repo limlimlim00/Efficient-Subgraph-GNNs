@@ -6,6 +6,21 @@ import torch
 from torch_geometric.utils import to_dense_adj, dense_to_sparse
 import logging
 
+def identity_coarsen(graph: Data) -> Data:
+    co_edge_attr = graph.edge_attr
+    if co_edge_attr.dim() == 1:
+        co_edge_attr = co_edge_attr.reshape(-1, 1)
+
+    cluster_to_nodes_map = {i: [i] for i in range(graph.num_nodes)}
+
+    coarsened = Data(
+        edge_index=graph.edge_index,
+        edge_attr=co_edge_attr,
+        num_nodes=graph.num_nodes,
+        super_nodes=cluster_to_nodes_map
+    )
+    return coarsened
+
 # ===================================================================================================================== #
 # ========================================           (1) k-means               ======================================== #
 # ===================================================================================================================== #
