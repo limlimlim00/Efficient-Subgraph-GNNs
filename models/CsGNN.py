@@ -117,7 +117,9 @@ class Coarsen_based_model(nn.Module):
                 all_aggs.append(agg_element)
             
             # SUM ALL AGGS
-            if len(all_aggs) == 2:
+            if len(all_aggs) == 1:
+                all_aggs_sum = all_aggs[0]
+            elif len(all_aggs) == 2:
                 all_aggs_sum = all_aggs[0] + all_aggs[1]
             else:  # len(all_aggs) = 2
                 all_aggs_sum = all_aggs[0] + all_aggs[1] + all_aggs[2]
