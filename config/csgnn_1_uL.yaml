@@ -7,6 +7,8 @@ data:
   bs: 128 
   num_workers: 4
 
+  force_identity: False
+
   preprocess:
     max_dis: 5 # Max clamp value for SPD distance
     inf_value: 1001 # Warning: Assumes the value of INF_VALUE (1001) accounts for 2 nodes which are unreachable from each other

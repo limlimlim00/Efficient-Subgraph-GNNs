@@ -1,10 +1,10 @@
 general:
   seed: 1
-  device: 0
+  device: 1
 
 data:
   name: zinc12k 
-  bs: 128 
+  bs: 32
   num_workers: 4
 
   force_identity: False
@@ -26,7 +26,7 @@ model:
   base_mpnn: Gin # Supports [GatV2, Transformer_conv, Gat, Gin]
   H: 4 # Warning: H represents the number of heads for GAT, GatV2, and Transformer_conv. It is ignored for other architectures.
   residual: False
-  aggs: ["uL", "vL", "point"] # To exclude a specific aggregation during training (e.g., "point"), simply pass ["uL", "vL"] instead.
+  aggs: ["uL", "vL", "loint"] # To exclude a specific aggregation during training (e.g., "point"), simply pass ["uL", "vL"] instead.
   sum_pooling: False # False stands for mean pooling
   point_encoder: MLP # Encoder for the "point" aggregation. Supported options: "RELU", "MLP", "NONE".
 
@@ -53,4 +53,4 @@ training:
   warmup: 10
 
 wandb:
-  project_name: csgnn_1_uLvLpoint
+  project_name: csgnn_2_loint

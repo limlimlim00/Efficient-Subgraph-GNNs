@@ -4,7 +4,7 @@ general:
 
 data:
   name: zinc12k 
-  bs: 128 
+  bs: 32
   num_workers: 4
 
   force_identity: False
@@ -53,4 +53,4 @@ training:
   warmup: 10
 
 wandb:
-  project_name: csgnn_1_uLvLpoint
+  project_name: csgnn_2_loint
