@@ -119,7 +119,7 @@ class Bond(nn.Module):
             if attr_of_each_edge.shape[-1] == 1:
                 return F.relu(self.embed(attr_of_each_edge)) # Graphs x Embs
             else: 
-                return F.relu(self.embed(attr_of_each_edge.to(torch.int)[:, None]).mean(dim=1)) # Graphs x Embs
+                return F.relu(self.embed(attr_of_each_edge.to(torch.long)[:, None]).mean(dim=1)) # Graphs x Embs
 
         else:
             attr_of_each_edge = attrs
