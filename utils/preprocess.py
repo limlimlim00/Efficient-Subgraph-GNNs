@@ -132,10 +132,21 @@ def product_graph_construction(cfg):
 # ================================== SPD pre-proccess ================================== #
 
 
-def get_spd_for_product_graph(graph, coarsened_graph, n_clusters, pad_value=-1, INF_VALUE=1001.0, MAX_SPD_DIM=100):
-    # Warning: Assumes the value of INF_VALUE (1001) accounts for 2 nodes which are unreachable from each other!
-    adj_of_origianl_graph = to_dense_adj(
-        graph.edge_index, max_num_nodes=graph.num_nodes).squeeze(0)
+def get_spd_for_product_graph(graph, coarsened_graph, n_clusters,
+                              pad_value=-1, INF_VALUE=1001.0, MAX_SPD_DIM=100):
+    # edge가 하나도 없는 그래프(2 x 0)인 경우를 처리
+    if graph.edge_index.numel() == 0:
+        adj_of_origianl_graph = torch.zeros(
+            (graph.num_nodes, graph.num_nodes),
+            dtype=torch.float32,   # float로 해도 되고 long으로 해도 됨
+            device=graph.x.device if graph.x is not None else graph.edge_index.device,
+        )
+    else:
+        adj_of_origianl_graph = to_dense_adj(
+            graph.edge_index,
+            max_num_nodes=graph.num_nodes
+        ).squeeze(0)
+
     apsp = get_all_pairs_shortest_paths(adj=adj_of_origianl_graph)
 
     # Replaces all 'inf' values with 1001
@@ -149,8 +160,6 @@ def get_spd_for_product_graph(graph, coarsened_graph, n_clusters, pad_value=-1, 
             spd_values = apsp[super_nodes_internal_nodes, node]
             spd_values, _ = spd_values.sort()
             spd_values = spd_values[:MAX_SPD_DIM]
-            # Warning: (1) 100 is the pad size
-            # Warning: (2) stores 100 spd's
             spd_values = pad_tensor(
                 spd_values, pad_size=MAX_SPD_DIM, pad_value=pad_value)
             list_of_spds.append(spd_values)
