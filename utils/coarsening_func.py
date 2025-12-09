@@ -30,8 +30,19 @@ def get_coarsened_graph(graph, n_clusters=2, type='K-mean', dim_laplacian=2):
     if graph.edge_attr.dim() == 1:
         graph.edge_attr = graph.edge_attr.reshape(-1, 1)
     if type.lower() == "k-mean":  # Case-insensitive comparison
-        adjacency_matrix = to_dense_adj(
-            edge_index=graph.edge_index, max_num_nodes=graph.num_nodes).numpy()[0]
+        if graph.edge_index.numel() == 0:
+            # 간선이 하나도 없으면, 0으로만 된 adjacency 만들기
+            adjacency_matrix = torch.zeros(
+                (graph.num_nodes, graph.num_nodes),
+                dtype=torch.long,
+                device=graph.edge_index.device,
+            ).cpu().numpy()
+        else:
+            adjacency_matrix = to_dense_adj(
+                edge_index=graph.edge_index,
+                max_num_nodes=graph.num_nodes
+            ).cpu().numpy()[0]
+            
         labels, new_edge_index_tensor, new_edge_attr_tensor, cluster_to_nodes_map = get_coarsened_graph_attributes_K_means(
             edge_index=graph.edge_index, edge_attr=graph.edge_attr, adjacency_matrix=adjacency_matrix, n_clusters=n_clusters, dim_laplacian=dim_laplacian)
 
