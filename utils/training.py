@@ -10,6 +10,7 @@ import logging
 import copy
 import wandb
 import time
+import math
 
 # --------------------------------- loss function -------------------------------- #
 
@@ -185,7 +186,7 @@ class WarmupCosineAnnealingLR(_LRScheduler):
             cosine_epochs = torch.tensor(
                 float(self.total_epochs - self.warmup_epochs))
             lr = self.max_lr * \
-                (1 + torch.cos(torch.pi * cosine_epoch / cosine_epochs)) / 2
+                (1 + torch.cos(math.pi * cosine_epoch / cosine_epochs)) / 2
             lr = lr.item()
         return [lr for _ in self.optimizer.param_groups]
 
