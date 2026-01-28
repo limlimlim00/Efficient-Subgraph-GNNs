@@ -237,3 +237,53 @@ url={https://openreview.net/forum?id=9cFyqhjEHC}
 }
 ```
 
+## GPU1 Conda
+
+```bash
+conda create -n csgnn python=3.8 -y
+conda activate csgnn
+
+pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 --extra-index-url https://download.pytorch.org/whl/cu101
+
+pip install torch-scatter==2.0.7 torch-sparse==0.6.9 torch-cluster==1.5.9 torch-spline-conv==1.2.1 -f https://data.pyg.org/whl/torch-1.7.1+cu101.html
+
+pip install torch-geometric==2.0.4
+
+pip install numpy==1.19.5
+pip install scipy==1.5.4
+pip install scikit-learn==0.24.2
+pip install pandas==1.3.5
+pip install matplotlib==3.5.*
+
+pip install tqdm==4.*
+pip install pyyaml==6.0.1
+pip install requests==2.*
+pip install protobuf==3.20.*
+pip install ogb==1.3.6
+pip install easydict==1.11
+pip install wandb==0.16.2
+pip install gitpython==3.1.41
+pip install littleutils==0.2.2
+pip install outdated==0.2.2
+pip install click==8.1.7
+pip install fsspec==2023.12.2
+pip install sqlalchemy==1.4.*
+pip install reportlab==4.0.8
+pip install psutil==5.*
+pip install jinja2==3.1.*
+pip install ipython==8.12.*
+pip install jupyter_client==8.*
+pip install jupyter_core==5.*
+pip install traitlets==5.*
+pip install pygments==2.*
+pip install python-dateutil==2.8.*
+pip install pytz==2023.3.post1
+  
+pip install rdkit-pypi==2022.9.5
+pip install pycairo==1.20.1
+pip install rlpycairo==0.2.0
+
+conda install -y cudatoolkit=10.1
+
+conda clean --all -y
+```
